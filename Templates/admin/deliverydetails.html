@@ -1,0 +1,35 @@
+{% extends "admin/navbaradmin.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+  body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+</style>
+  <div class="container mt-5">
+    <h2 style="text-align: center;">Delivery Details</h2>
+    <hr>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 mt-4">
+      {% for deli in delivery %}
+         {% if deli.user_member.user_type == '2' and deli.user_member.is_active == 1 %}
+        <div class="col mb-4">
+          <div class="card">
+            <img src="{{ deli.image.url }}" class="card-img-top rounded-circle" alt="{{ deli.user_member.email }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ deli.user_member.email }}</h5>
+              <p class="card-text">Name: {{ deli.user_member.first_name }}</p>
+              <p class="card-text">Number: {{ deli.number }}</p>
+              <p class="card-text">Address: {{ deli.address }}</p>
+              <p class="card-text">Pancard: {{ deli.pancard }}</p>
+              <div class="d-flex justify-content-between">
+                <a href="{% url 'delete_delivery' deli.id %}" class="btn btn-danger btn-md">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

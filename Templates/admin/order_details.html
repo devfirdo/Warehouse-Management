@@ -1,0 +1,54 @@
+{% extends "admin/navbaradmin.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+    body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+</style>
+    <div class="container mt-5">
+        <h2 style="text-align: center;">Order Details</h2>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Delivery Name</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Product Image</th>
+                        <th scope="col">Order Status</th>
+                        <th scope="col">Ordered Date</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        {% with assigned_order=order.assigned_orders.first %}
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>{{ order.user.get_full_name }}</td>
+                                <td>{{ assigned_order.delivery_guy.get_full_name }}</td>
+                                <td>{{ order.product.product_name }}</td>
+                                <td>
+                                    {% if order.product.product_image %}
+                                        <img src="{{ order.product.product_image.url }}" alt="Product Image" style="max-width: 50px;">
+                                    {% else %}
+                                        No Image
+                                    {% endif %}
+                                </td>
+                                <td>{{ assigned_order.order.tracking_status }}</td>
+                                <td>{{ order.order_date }}</td>
+                                <td>{{ order.quantity }}</td>
+                                <td>{{ order.price }}</td>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

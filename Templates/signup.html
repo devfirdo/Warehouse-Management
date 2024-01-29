@@ -1,0 +1,248 @@
+{% extends "navbarhome.html" %}
+{% block content %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% load static %}
+    <style>
+        body {
+            background-image: url("{% static 'images/lines1.png' %}");
+            
+            
+        }
+        .signup-form-container {
+            opacity: 1;
+            max-height: 600px; /* Set a maximum height */
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        }
+
+        .signup-form-container.hidden {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none; /* Disable pointer events for hidden form */
+        }
+        footer {
+            background-color: #f8f9fa; /* Light gray background */
+            padding: 20px 0;
+            position: fixed;
+            border: 1px solid black;
+            bottom: 0;
+            width: 100%;
+        }
+    
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .social-icons i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #000000; /* Bootstrap primary color */
+        }
+
+    </style>
+
+    <div class="container mt-5" style='max-width:500px;'>
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h3 class="mb-0"><span id="formTitle"><i class="fas fa-sign-in-alt"></i> Customer Signup</span></h3>
+            </div>
+            <div class="card-body">
+                <div class="signup-form-container" id="customerSignupForm">
+                    <form method="post" action="{% url 'client_signup' %}" class="needs-validation" enctype='multipart/form-data'>
+                        {% csrf_token %}
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="name">Name:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="text" name="cname" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="email">Email:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" name="cemail" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="mobile_number">Mobile Number:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    </div>
+                                    <input type="tel" pattern="[0-9]{10}" name="cmobile_number" class="form-control" required title="Please enter a 10-digit mobile number">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="pan_card">PAN Card:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                    </div>
+                                    <input type="text" name="cpan_card" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="address">Address:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                </div>
+                                <textarea name="caddress" class="form-control" required></textarea>
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="image">Image:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                </div>
+                                <input type="file" name="cimage" class="form-control-file" accept='image/*' required>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="cuser_type" value="3">
+
+                        <button type="submit" class="btn btn-dark btn-block"><i class="fas fa-sign-in-alt"></i> Sign Up</button>
+                    </form>
+                </div>
+
+                <div class="signup-form-container hidden" id="deliverySignupForm">
+                    <form method="post" action="{% url 'delivery_signup' %}" class="needs-validation" enctype='multipart/form-data' >
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="name">Name:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="text" name="name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="email">Email:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="mobile_number">Mobile Number:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    </div>
+                                    <input type="tel" pattern="[0-9]{10}" name="mobile_number" class="form-control" required title="Please enter a 10-digit mobile number">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="pan_card">PAN Card:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                    </div>
+                                    <input type="text" name="pan_card" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="address">Address:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                </div>
+                                <textarea name="address" class="form-control" required></textarea>
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="image">Image:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                </div>
+                                <input type="file" name="image" class="form-control-file" accept='image/*' required>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="user_type" value="2">
+
+                        <button type="submit" class="btn btn-dark btn-block"><i class="fas fa-sign-in-alt"></i> Sign Up</button>
+                    </form>
+                </div>
+
+                <button class="btn btn-secondary btn-block mt-3" onclick="toggleSignupForm()">Switch Form</button>
+                    <div>
+                    {% for i in messages %}{{i}}{% endfor %}
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-bottom:150px;">
+
+    </div>
+    <footer>
+        <div class="container footer-content">
+            <div>
+                &copy; 2024 Warehouse Management System
+            </div>
+            <div class="social-icons">
+                <!-- Add your social media icons here -->
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function toggleSignupForm() {
+            var customerForm = document.getElementById('customerSignupForm');
+            var deliveryForm = document.getElementById('deliverySignupForm');
+            var formTitle = document.getElementById('formTitle');
+
+            if (customerForm.classList.contains('hidden')) {
+                customerForm.classList.remove('hidden');
+                deliveryForm.classList.add('hidden');
+                formTitle.innerHTML = '<i class="fas fa-sign-in-alt"></i> Customer Signup';
+            } else {
+                customerForm.classList.add('hidden');
+                deliveryForm.classList.remove('hidden');
+                formTitle.innerHTML = '<i class="fas fa-sign-in-alt"></i> Delivery Signup';
+            }
+        }
+    </script>
+
+{% endblock  %}

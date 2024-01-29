@@ -1,0 +1,190 @@
+{% extends "customer/navbarcustomer.html" %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    body {
+        background-image: url("{% static 'images/lines1.png' %}");
+    }
+
+    .animated-text {
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 2em;
+    }
+
+    .animated-text span {
+        animation: moveText 5s infinite linear;
+        display: inline-block;
+        padding-right: 20px;  /* Adjust as needed */
+    }
+
+    @keyframes moveText {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    .carousel-inner img {
+        width: 30%;
+        margin: auto; /* Center the images horizontally */
+        display: block; /* Remove any default margin */
+    }
+
+    /* Custom styles for carousel controls */
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: rgb(0, 0, 0); /* Change the color to your preferred color */
+    }
+    .explore-btn a {
+        text-decoration: none;
+        color: white;
+    }
+    .explore-btn {
+        max-width: 250px;
+        font-size: 1.2em;
+        margin-top: 15px;
+        
+    }
+    .explore-btn {
+        background-color: #000100; /* Green */
+        color: white;
+    }
+
+
+    
+</style>
+
+<div class="container mt-4">
+    <h1 style="text-align: center; margin-top: 50px;">Welcome, {{ user.get_full_name }}</h1>
+    <hr>
+    <!-- Animated Text -->
+    <div class="animated-text">
+        <span>New Year Offer..!! 20% Discount On all Products</span>
+    </div>
+
+    <h4 style="margin-top: 50px;text-align: center;" class="display-5" >Our Top Selling Products</h4>
+    <div id="carouselExample" class="carousel slide mt-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'images/robot.png' %}" class="d-block mx-auto" alt="Warehouse Image 1">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/watch.png' %}" class="d-block mx-auto" alt="Warehouse Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/gameboy.png' %}" class="d-block mx-auto" alt="Warehouse Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/gadget.png' %}" class="d-block mx-auto" alt="Warehouse Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/game-controller.png' %}" class="d-block mx-auto" alt="Warehouse Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/television.png' %}" class="d-block mx-auto" alt="Warehouse Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/imac.png' %}" class="d-block mx-auto" alt="Warehouse Image 2">
+            </div>
+            <!-- Add more carousel items with mx-auto for centering -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+<div class="d-flex justify-content-center">
+    <button type="button" class="btn btn-dark explore-btn"><a href="{% url 'all_products' %}">Explore Our Products</a>
+        
+    </button>
+</div>
+<div class="container mt-4">
+    <div class="card" style="box-shadow:1px 2px 2px 1px #33a6f9;">
+        <div class="card-body">
+          <h3 class="card-title text-primary">Why Us!</h3>
+          <h6 class="card-subtitle mb-2 ">Curated Collections for Every Occasion:</h6>
+          <p class="card-text text-muted">Whether you're dressing the little ones, stepping out for a night on the town, or seeking sophisticated looks for the workplace, our curated collections have you covered.</p>
+          <h6 class="card-subtitle mb-2">Quality Craftsmanship, Every Stitch Matters:</h6>
+          <p class="card-text  text-muted">Our commitment to quality is woven into the fabric of every garment. Each piece undergoes meticulous craftsmanship, ensuring durability and style that withstands the test of time.</p>
+          <h6 class="card-subtitle mb-2 ">Express Your Unique Style:</h6>
+          <p class="card-text text-muted">Embrace your individuality with our interactive online platform. Design your own pieces, mix and match styles, and let your creativity shine.</p>
+          <h6 class="card-subtitle mb-2">Fashion Tech for the Modern Era:</h6>
+          <p class="card-text  text-muted"> Experience the fusion of fashion and technology with our innovative solutions. From personalized styling recommendations to a seamless online shopping experience.</p>
+          <h6 class="card-subtitle mb-2 ">Exceptional Customer Service:</h6>
+          <p class="card-text text-muted">Your satisfaction is our priority. Our dedicated customer service team is here to assist you at every step, ensuring a seamless and enjoyable shopping experience.</p>  
+        </div>
+      </div>
+</div>
+<div class="container mt-4">
+    <center><button type="button" style="max-width: 250px;"class="btn btn btn-dark mt-4" data-toggle="modal" data-target="#exampleModalScrollable" >
+      Terms & Conditions
+    </button></center>
+    
+  
+    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">Terms & Conditions</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Welcome to TrendHaven! By accessing and using our website, you agree to comply with and be bound by the following terms and conditions:</p>
+        
+            <h6>1. Acceptance of Terms</h6>
+            <p>By using our website, you agree to the terms and conditions outlined herein. If you do not agree with any part of these terms, please refrain from using our services.</p>
+        
+            <h6>2. User Conduct</h6>
+            <p>When using our website, you agree not to engage in any activities that may disrupt or interfere with the proper functioning of the site. This includes but is not limited to the use of malicious software, hacking, or any activity that violates applicable laws.</p>
+        
+            <h6>3. Privacy Policy</h6>
+            <p>Your use of TrendHaven is also governed by our Privacy Policy. Please review our Privacy Policy to understand how we collect, use, and protect your personal information.</p>
+        
+            <h6>4. Intellectual Property</h6>
+            <p>All content on this website, including but not limited to text, graphics, logos, images, and software, is the property of TrendHaven and is protected by intellectual property laws. Unauthorized use of any content may violate copyright, trademark, and other laws.</p>
+        
+            <h6>5. Product Information</h6>
+            <p>We strive to provide accurate and up-to-date product information. However, we do not warrant the accuracy, completeness, or reliability of any product descriptions or information on our website. Prices and availability are subject to change without notice.</p>
+        
+            <h6>6. Disclaimer of Liability</h6>
+            <p>TrendHaven is not liable for any direct, indirect, incidental, consequential, or punitive damages arising out of your access to or use of our website. Use our website at your own risk.</p>
+        
+            <h6>7. Changes to Terms</h6>
+            <p>TrendHaven reserves the right to update or modify these terms and conditions at any time without prior notice. It is your responsibility to review these terms periodically for changes.</p>
+        
+            <p>By using TrendHaven, you agree to these terms and conditions. If you have any questions or concerns, please contact us at [jannathulfirdouseinsta@gmail.com].</p>
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+    // Optional: You can add more text to the animated text by duplicating the spans in JavaScript/jQuery
+    $(document).ready(function() {
+        var animatedText = $(".animated-text");
+        animatedText.append(animatedText.html());
+    });
+</script>
+{% endblock %}

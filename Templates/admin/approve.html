@@ -1,0 +1,61 @@
+{% extends "admin/navbaradmin.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+  body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+</style>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Pending Users Approval</h2>
+    <hr>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>User Type</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in pending_users %}
+            <tr>
+              <td>{% if user.user_type == '2' %}Delivery{% else %}Client{% endif %}</td>
+              <td>{{ user.first_name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <form method="post" action="">
+                  {% csrf_token %}
+                  <input type="hidden" name="user_id" value="{{ user.id }}">
+                  <button type="submit" name="action" value="approve" class="btn btn-success">Grant</button>
+                  <button type="submit" name="action" value="disapprove" class="btn btn-danger">Reject</button>
+                </form>
+              </td>
+              <td><span class="badge badge-warning">Pending</span></td>
+            </tr>
+          {% endfor %}
+          {% for user in approved_users %}
+            {% if not user.is_superuser %}
+              <tr>
+                <td>{% if user.user_type == '2' %}Delivery{% else %}Client{% endif %}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.email }}</td>
+                <td></td>
+                <td><span  style="color:green;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Approved</span></td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div>
+      {% for i in messages %}
+        <div class="alert alert-info mt-3" role="alert">{{ i }}</div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "delivery/navbardelivery.html" %}
+{% block content %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% load static %}
+    <style>
+        body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+    </style>
+<h2 style="margin-top: 70px;text-align: center;">Your Assigned Orders</h2>
+<hr>
+
+<div class="table-responsive mt-4">   
+{% if assigned_orders %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Product Image</th>
+                <th>Quantity</th>
+                <th>Order Status</th>
+                <th>Ordered Date</th>
+                <th>Shipping Method</th>
+                <th>Customer Name</th>
+                <th>Action</th>  
+            </tr>
+        </thead>
+        <tbody>
+            {% for assigned_order in assigned_orders %}
+                <tr>
+                    <td>{{ assigned_order.order.id }}</td>
+                    <td>{{ assigned_order.order.product.product_name }}</td>
+                    <td>
+                        {% if assigned_order.order.product.product_image %}
+                            <img src="{{ assigned_order.order.product.product_image.url }}" alt="Product Image" style="max-width: 50px;">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ assigned_order.order.quantity }}</td>
+                    <td>{{ assigned_order.order.tracking_status }}</td>
+                    <td>{{ assigned_order.order.order_date }}</td>
+                    <td>{{ assigned_order.order.shipping_method.method_name }}</td>
+                    <td>{{ assigned_order.order.user.get_full_name }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal{{ assigned_order.order.id }}">
+                            Update Order
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Modal for updating order -->
+                <!-- Modal for updating order -->
+                <div class="modal fade" id="updateOrderModal{{ assigned_order.order.id }}" tabindex="-1" role="dialog" aria-labelledby="updateOrderModalLabel{{ assigned_order.order.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateOrderModalLabel{{ assigned_order.order.id }}">Update Order - {{ assigned_order.order.id }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Add input fields for dispatched_location, transit_location, estimated_delivery_date, and status -->
+                                <form method="post" action="{% url 'update_order' assigned_order_id=assigned_order.id %}">
+                                    {% csrf_token %}
+                                    
+                                    <!-- Add your input fields here with existing values -->
+                                    <div class="form-group">
+                                        <label for="dispatched_location">Dispatched Location:</label>
+                                        <input type="text" class="form-control" name="dispatched_location" id="dispatched_location" value="{{ assigned_order.dispatched_location }}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="transit_location">Transit Location:</label>
+                                        <input type="text" class="form-control" name="transit_location" id="transit_location" value="{{ assigned_order.transit_location }}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="estimated_delivery_date">Estimated Delivery Date:</label>
+                                        <input type="date" class="form-control" name="estimated_delivery_date" id="estimated_delivery_date" value="{{ assigned_order.estimated_delivery_date|date:'Y-m-d' }}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="status">Status:</label>
+                                        <select class="form-control" name="status" id="status">
+                                            <option value="Pending" {% if assigned_order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                            <option value="Delivered" {% if assigned_order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                                        </select>
+                                    </div>
+                                
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <p>No orders assigned to you.</p>
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+

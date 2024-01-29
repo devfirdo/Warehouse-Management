@@ -1,0 +1,35 @@
+{% extends "admin/navbaradmin.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+  body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+</style>
+  <div class="container mt-5">
+    <h2 style="text-align: center;">Client Details</h2>
+    <hr>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 mt-4">
+      {% for client in customer %}
+         {% if client.user_member.user_type == '3' and client.user_member.is_active == 1 %}
+        <div class="col mb-4">
+          <div class="card">
+            <img src="{{ client.image.url }}" class="card-img-top rounded-circle" alt="{{ client.user_member.email }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ client.user_member.email }}</h5>
+              <p class="card-text">Name: {{ client.user_member.first_name }}</p>
+              <p class="card-text">Number: {{ client.number }}</p>
+              <p class="card-text">Address: {{ client.address }}</p>
+              <p class="card-text">Pancard: {{ client.pancard }}</p>
+              <div class="d-flex justify-content-between">
+                <a href="{% url 'delete_customer' client.id %}" class="btn btn-danger btn-md">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

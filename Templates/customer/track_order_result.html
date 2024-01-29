@@ -1,0 +1,128 @@
+{% extends "customer/navbarcustomer.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<style>
+    body {
+        background-image: url("{% static 'images/lines1.png' %}");
+    }
+    @media (max-width: 768px) {
+        .progress-bar {
+            font-weight: bold;
+            font-size: 7px; 
+        }
+    }
+</style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <h2 style="margin-top: 100px;">Order Tracking Result</h2>
+    {% if order %}
+        <p>Order ID: {{ order.id }}</p>
+        <p>Product: {{ order.product.product_name }}</p>
+
+        {% if order.product.product_image %}
+            <img src="{{ order.product.product_image.url }}" alt="Product Image" style="max-width: 100px;">
+        {% else %}
+            No Image
+        {% endif %}
+
+        {% if assigned_order %}
+            <p>Estimated Delivery Date: {{ assigned_order.estimated_delivery_date }}</p>
+            <p>Delivery Guy: {{ assigned_order.delivery_guy.get_full_name }}</p>
+        {% else %}
+            <p>Order not assigned yet.</p>
+        {% endif %}
+
+        <!-- Display other relevant order information -->
+
+        <!-- Tracking Bar -->
+        <div class="progress mt-4" style="height: 30px;">
+            {% if assigned_order %}
+                <div class="progress-bar text-dark font-weight-bold" role="progressbar" style="width: {{ pending_progress }}%; background-color: {{ pending_color }};">Pending - {{ assigned_order.dispatched_location }}</div>
+                <div class="progress-bar text-dark font-weight-bold" role="progressbar" style="width: {{ dispatched_progress }}%; background-color: #FFD700;">Dispatched - {{ assigned_order.dispatched_location }}</div>
+                <div class="progress-bar text-dark font-weight-bold" role="progressbar" style="width: {{ transit_progress }}%; background-color: #87CEEB;">In Transit - {{ assigned_order.transit_location }}</div>
+                <div class="progress-bar text-dark font-weight-bold" role="progressbar" style="width: {{ delivered_progress }}%; background-color: #32CD32;">Delivered - {{ assigned_order.delivered_date }}</div>
+            {% else %}
+                <div class="progress-bar text-dark" role="progressbar" style="width: 25%; min-width: 5%; background-color: #CCCCCC;">Pending</div>
+                <div class="progress-bar text-dark" role="progressbar" style="width: 25%; background-color: #FFD700;">Dispatched</div>
+                <div class="progress-bar text-dark" role="progressbar" style="width: 25%; background-color: #87CEEB;">In Transit</div>
+                <div class="progress-bar text-dark" role="progressbar" style="width: 25%; background-color: #32CD32;">Delivered</div>
+            {% endif %}
+        </div>
+
+        {% if assigned_order and assigned_order.status == 'Delivered' %}
+            <button id="updateDeliveryStatusBtn" class="btn btn-primary mt-3">Update Delivery Status</button>
+        {% endif %}
+    {% else %}
+        <p>No order found with the provided tracking ID.</p>
+    {% endif %}
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function updateCheckpoints() {
+            $.ajax({
+                url: '/get_order_status/{{ order.id }}/',
+                type: 'GET',
+                success: function (data) {
+                    // Disable transition to stop animation
+                    $('.progress-bar').css('transition', 'none');
+
+                    // Update progress bar based on the values fetched from the server
+                    $('.progress-bar').each(function(index) {
+                        // Set the width, text, and background color
+                        $(this).css('width', data.checkpoints[index].progress + '%');
+                        $(this).text(data.checkpoints[index].label + ' - ' + data.checkpoints[index].location);
+                        $(this).css('background-color', data.checkpoints[index].color);
+                    });
+
+                    // Enable transition after updating
+                    setTimeout(function() {
+                        $('.progress-bar').css('transition', '');
+                    }, 0);
+                },
+                error: function () {
+                    console.error('Error fetching order status.');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            updateCheckpoints();
+            setInterval(updateCheckpoints, 60000);
+
+            // Attach click event to the button
+            $('#updateDeliveryStatusBtn').click(function() {
+                $.ajax({
+                    url: '/update_delivery_status/{{ assigned_order.id }}/',
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                    success: function (data) {
+                        if (data.status === 'success') {
+                            // Update the tracking status in the progress bar
+                            $('.progress-bar:last').text('Delivered - ' + data.tracking_status);
+
+                            // Handle success, e.g., show a confirmation message
+                            console.log('Delivery status updated successfully.');
+                        } else {
+                            console.error('Error updating delivery status:', data.message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error('AJAX Error:', textStatus, errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

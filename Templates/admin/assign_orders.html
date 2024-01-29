@@ -1,0 +1,65 @@
+{% extends "admin/navbaradmin.html" %}
+{% block content %}
+{% load static %}
+<style>
+    body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+    h2 {
+        margin-top: 100px;
+    }
+
+    .order-label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .assigned-info {
+        display: inline-block;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+    .select-delivery-guy {
+        margin-bottom: 10px;
+    }
+
+    .no-orders-message {
+        margin-top: 20px;
+        color: #888;
+    }
+</style>
+
+<div class="container">
+    <h2 style="text-align: center;">Assign Orders to Delivery Guys</h2>
+    <hr>
+
+    {% if orders_to_assign %}
+        <form method="post">
+            {% csrf_token %}
+            {% for order in orders_to_assign %}
+                <div class="form-group order-label">
+                    <label for="order_{{ order.id }}">
+                        Order #{{ order.id }} - {{ order.product.product_name }} (Quantity: {{ order.quantity }})
+                    </label>
+                    {% if order.assignedorder %}
+                        <span class="assigned-info">Assigned to: {{ order.assignedorder.delivery_guy.get_full_name }}</span>
+                    {% else %}
+                        <select class="form-control select-delivery-guy" name="order_{{ order.id }}">
+                            <option value="" selected disabled>Select a Delivery Guy</option>
+                            {% for delivery_guy in delivery_guys %}
+                                <option value="{{ delivery_guy.id }}">{{ delivery_guy.get_full_name }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-dark">Assign Orders</button>
+        </form>
+    {% else %}
+        <p class="no-orders-message">There are no orders to assign at the moment.</p>
+    {% endif %}
+</div>
+
+{% endblock  %}

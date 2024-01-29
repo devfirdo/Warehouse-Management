@@ -1,0 +1,16 @@
+{% extends "customer/navbarcustomer.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<style>
+    body {
+        background-image: url("{% static 'images/lines1.png' %}");
+    }
+</style>
+    <div class="container text-center mt-5">
+        <h1>Order Placed Successfully</h1>
+        <p>Your order has been placed successfully.</p>
+        <p>Tracking ID: {{ tracking_id }}</p>
+        <p>You will receive an email with tracking details shortly.</p>
+    </div>
+{% endblock %}

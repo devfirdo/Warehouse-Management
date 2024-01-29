@@ -1,0 +1,72 @@
+{% extends "admin/navbaradmin.html" %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+      body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+        .small-form {
+          max-width: 400px; /* Adjust the maximum width based on your preference */
+          margin: auto;
+          margin-top : 100px;
+          border-radius: 20px;
+          padding-left: 20px;
+          padding-right: 20px;
+          padding-bottom: 10px;
+          border: 2px solid rgba(174, 167, 167, 0.523);
+        }
+    
+        .small-form input,
+        .small-form select,
+        .small-form textarea {
+          width: 100%;
+        }
+       
+    </style>
+<div class="container small-form">
+    <h2 style="text-align: center;">Add Product</h2>
+    <form method="post" enctype="multipart/form-data" action="{% url 'create_product' %}">
+        {% csrf_token %}
+      <div class="form-group">
+        <label for="productName">Product Name <i class="fas fa-tags"></i></label>
+        <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="name" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="productStock">Product Stock <i class="fas fa-cubes"></i></label>
+        <input type="number" class="form-control" id="productStock" placeholder="Enter product stock" name="stock" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="productPrice">Product Price <i class="fas fa-dollar-sign"></i></label>
+        <input type="number" class="form-control" id="productPrice" placeholder="Enter product price" name="price" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="productDescription">Product Description <i class="fas fa-file-alt"></i></label>
+        <input type="text" class="form-control" id="productDescription" placeholder="Enter product description" name="description" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="productSpecification">Product Specification <i class="fas fa-info-circle"></i></label>
+        <input type="text" class="form-control" id="productSpecification" placeholder="Enter product specification" name="specification" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="productImage">Product Image <i class="fas fa-image"></i></label>
+        <input type="file" class="form-control-file" id="productImage" accept="image/*" name="image" required>
+      </div>
+      <div>
+        {% for i in messages %}{{i}}{% endfor %}
+      </div>
+      <button type="submit" class="btn btn-dark btn-block">Add Product</button>
+    </form>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock  %}

@@ -1,0 +1,178 @@
+{% extends "navbarhome.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+    <style>
+        body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+        h1 {
+            margin-top:10%;
+        }
+
+        .moving-text {
+            position: relative;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        .moving-text p {
+            animation: text-scroll 15s linear infinite;
+        }
+        
+        @keyframes text-scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .card-body {
+            padding: 1.5rem; /* Adjust as needed */
+            overflow: hidden; /* Ensure the text stays within the card */
+        }
+        .card img {
+            display: block;
+            margin: 0 auto;
+        }
+        footer {
+            background-color: #f8f9fa; /* Light gray background */
+            padding: 20px 0;
+            position: fixed;
+            border: 1px solid black;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .social-icons i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #000000; /* Bootstrap primary color */
+        }
+
+        @media (max-width: 768px) {
+            .moving-text p {
+                font-size: 14px; /* Adjust as needed */
+            }
+        }
+    </style>
+
+    <div class="container mt-4">
+        <h1 class="text-center">Warehouse Management System</h1>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Welcome to the Home Page</h4>
+                    </div>
+                    <div class="card-body moving-text">
+                        <p class="lead">Welcome to the efficient and organized warehouse management system!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Products</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Total Products : <span id="total-products">Loading...</span></p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="container-sm mt-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 style="text-align:center">Shipping Methods We Provide</h3>
+                <img class="img-fluid" src="{% static 'images/air-freight.png' %}" alt="" style='width:200px;'>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <img class="img-fluid" src="{% static 'images/delivery-van.png' %}" alt="" style='width:200px;'>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <img class="img-fluid" src="{% static 'images/cargo-ship.png' %}" alt="" style='width:200px;'>
+            </div>
+        </div>
+    </div>
+    <div class="container-sm mt-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 style="text-align:center">Secure Payment Methods</h3>
+                <img class="img-fluid" src="{% static 'images/credit-card.png' %}" alt="" style='width:200px;'>
+                <img class="img-fluid" src="{% static 'images/money.png' %}" alt="" style='width:200px;'>
+                <img class="img-fluid" src="{% static 'images/operation.png' %}" alt="" style='width:200px;'>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="card" style="box-shadow:1px 2px 2px 1px #000000;">
+            <div class="card-body">
+              <h3 class="card-title text-dark">Why Us!</h3>
+              <h6 class="card-subtitle mb-2 ">Curated Collections for Every Occasion:</h6>
+              <p class="card-text text-muted">Whether you're dressing the little ones, stepping out for a night on the town, or seeking sophisticated looks for the workplace, our curated collections have you covered.</p>
+              <h6 class="card-subtitle mb-2">Quality Craftsmanship, Every Stitch Matters:</h6>
+              <p class="card-text  text-muted">Our commitment to quality is woven into the fabric of every garment. Each piece undergoes meticulous craftsmanship, ensuring durability and style that withstands the test of time.</p>
+              <h6 class="card-subtitle mb-2 ">Express Your Unique Style:</h6>
+              <p class="card-text text-muted">Embrace your individuality with our interactive online platform. Design your own pieces, mix and match styles, and let your creativity shine.</p>
+              <h6 class="card-subtitle mb-2">Fashion Tech for the Modern Era:</h6>
+              <p class="card-text  text-muted"> Experience the fusion of fashion and technology with our innovative solutions. From personalized styling recommendations to a seamless online shopping experience.</p>
+              <h6 class="card-subtitle mb-2 ">Exceptional Customer Service:</h6>
+              <p class="card-text text-muted">Your satisfaction is our priority. Our dedicated customer service team is here to assist you at every step, ensuring a seamless and enjoyable shopping experience.</p>  
+            </div>
+          </div>
+    </div>
+    <div class="container" style="margin-bottom:200px;">
+
+    </div>
+    <footer>
+        <div class="container footer-content">
+            <div>
+                &copy; 2024 Warehouse Management System
+            </div>
+            <div class="social-icons">
+                <!-- Add your social media icons here -->
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Simulate fetching dynamic data (replace with actual AJAX calls later)
+                setTimeout(function() {
+                    // Fetch actual total number of products
+                    $.ajax({
+                        url: "{% url 'get_total_products' %}",
+                        method: "GET",
+                        success: function(data) {
+                            $('#total-products').text(data.total_products);
+                        },
+                        error: function(error) {
+                            console.error("Error fetching total products: ", error);
+                        }
+                    });
+        
+                    $('#recent-orders').text('Order #1234, Order #5678');
+                }, 2000); // Delay for demonstration
+            });
+        </script>
+{% endblock %}

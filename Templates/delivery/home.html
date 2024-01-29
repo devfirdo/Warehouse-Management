@@ -1,0 +1,86 @@
+{% extends "delivery/navbardelivery.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+    body {
+        background-image: url("{% static 'images/lines1.png' %}");
+    }
+
+    .card {
+        height: 150px;
+        margin-top: 50px;
+        overflow: hidden; /* Ensure text stays inside the box */
+    }
+
+    .card-text {
+        font-size: 1.2em;
+    }
+
+    .animating-text {
+        white-space: nowrap; /* Prevent text from breaking into multiple lines */
+        animation: moveText 5s infinite linear;
+        display: inline-block;
+        padding-right: 100%; /* Make sure the padding is at least the width of the container to allow animation */
+    }
+
+    @keyframes moveText {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+</style>
+
+<div class="container">
+    <h2 style="margin-top: 100px;text-align: center;">Welcome {{user.first_name}}</h2>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Delivered Orders</h5>
+                    {% if delivered_orders %}
+                        <p class="card-text animating-text">
+                            {% for order in delivered_orders %}
+                                Order #{{ order.order.id }} Delivered<br>
+                            {% endfor %}
+                        </p>
+                    {% else %}
+                        <p class="card-text animating-text">No delivered orders at the moment.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Orders</h5>
+                    {% if pending_orders %}
+                        <p class="card-text animating-text">
+                            {% for order in pending_orders %}
+                                Order #{{ order.order.id }} Pending<br>
+                            {% endfor %}
+                        </p>
+                    {% else %}
+                        <p class="card-text animating-text">No pending orders at the moment.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Assigned Orders</h5>
+                    <p class="card-text animating-text">
+                        Total Orders: {{ total_assigned_orders }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

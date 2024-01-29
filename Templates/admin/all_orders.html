@@ -1,0 +1,51 @@
+{% extends "admin/navbaradmin.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+    body {
+            background-image: url("{% static 'images/lines1.png' %}");
+        }
+    .progress-bar {
+        font-weight: bold;
+    }
+    @media (max-width: 768px) {
+        .progress-bar {
+ 
+            font-size: 7px; /* Adjust as needed for smaller screens */
+        }
+    }
+</style>
+    <div class="container mt-5">
+        <h2 style="text-align: center;">Tracking Details</h2>
+        <hr>
+        {% for data in orders_data %}
+            <div class="mt-4">
+                <h4>Order ID: {{ data.order.id }}</h4>
+                <p>Product: {{ data.order.product.product_name }}</p>
+
+                {% if data.order.product.product_image %}
+                    <img src="{{ data.order.product.product_image.url }}" alt="Product Image" style="max-width: 100px;">
+                {% else %}
+                    No Image
+                {% endif %}
+
+                {% if data.assigned_order %}
+                    <p>Estimated Delivery Date: {{ data.assigned_order.estimated_delivery_date }}</p>
+                    <p>Delivery Guy: {{ data.assigned_order.delivery_guy.get_full_name }}</p>
+                {% else %}
+                    <p>Order not assigned yet.</p>
+                {% endif %}
+
+                <!-- Display other relevant order information -->
+
+                <!-- Tracking Bar -->
+                <div class="progress mt-2 " style="height: 40px;">
+                    {% for checkpoint in data.checkpoints %}
+                        <div class="progress-bar text-dark" role="progressbar" style="width: {{ checkpoint.progress }}%; background-color: {{ checkpoint.color }};">{{ checkpoint.label }} - {{ checkpoint.location }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
